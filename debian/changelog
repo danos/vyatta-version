@@ -1,0 +1,5 @@
+vyatta-version (1.2) unstable; urgency=medium
+
+  * DANOS Import master
+
+ -- Vyatta Package Maintainers <DL-vyatta-help@att.com>  Mon, 11 Nov 2019 15:53:33 +0000

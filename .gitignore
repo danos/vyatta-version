@@ -1,0 +1,6 @@
+scripts/files
+debian/files
+debian/*.log
+debian/*.substvars
+debian/vyatta-version/
+

@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+CURDIR=$(shell pwd)
+export VVERSION=$(shell $(CURDIR)/scripts/get_vyatta_version | tr -d " ")
+
+%:
+	dh $@
+
+override_dh_gencontrol:
+	dh_gencontrol -p vyatta-version -- -v$(VVERSION)
+
+override_dh_auto_build:
+	$(CURDIR)/scripts/gen_files
+	dh_auto_build

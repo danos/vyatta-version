@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+PKG=vyatta-version
+
+case "$1" in
+    install|upgrade)
+	dpkg-divert --package ${PKG} --add --rename \
+            --divert /etc/os-release.base-files-vyatta /etc/os-release.vyatta
+	ln -sf os-release.${PKG} /etc/os-release.vyatta
+	;;
+
+    abort-upgrade)
+	;;
+
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

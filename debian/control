@@ -1,0 +1,15 @@
+Source: vyatta-version
+Section: misc
+Maintainer: Vyatta Package Maintainers <DL-vyatta-help@att.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+
+Package: vyatta-version
+Architecture: any
+Depends: ${misc:Depends}
+Section: base
+Replaces: vyatta-version, vc-version, vc2-version, devel-version
+Description: Produces version and package file
+ This package sets up the version file and a file containing the list 
+ of recommended packages (with recommended versions).
+

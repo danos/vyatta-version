@@ -1,0 +1,68 @@
+#!/bin/bash
+# Copyright (c) 2019, AT&T Intellectual Property.
+# All rights reserved.
+#
+# SPDX-License-Identifier: GPL-2.0-only
+
+#set -x
+
+get_dev_version () {
+  local ver=$1
+  local cur_time="00000000"
+  echo -n "$ver.$cur_time"
+}
+
+create_os_release_vyatta () {
+    local NAME=$(scripts/get_vyatta_version --name)
+    local PRETTY_NAME=$(scripts/get_vyatta_version --pretty_name)
+    local VERSION=$(scripts/get_vyatta_version --no-fallback)
+    local VERSION_ID=$(echo ${VERSION} | tr -d " ")
+
+    # pick up values from base-files-vyatta
+    cat /etc/os-release.vyatta > scripts/files/os-release.vyatta-version \
+	2>/dev/null
+
+    sed -i -e '/^PRETTY_NAME=/d' -e '/^NAME=/d' -e '/^VERSION=/d' \
+	-e '/^VERSION_ID=/d' \
+	scripts/files/os-release.vyatta-version
+
+    cat >> scripts/files/os-release.vyatta-version <<EOF
+PRETTY_NAME="${PRETTY_NAME}"
+NAME="${NAME}"
+EOF
+
+    if [ -n "${VERSION}" ] ; then
+	cat >> scripts/files/os-release.vyatta-version <<EOF
+VERSION="${VERSION}"
+VERSION_ID="${VERSION_ID}"
+EOF
+    fi
+}
+
+mk_dev_version_files () {
+  FULLVER=$(scripts/get_vyatta_version --pretty_name)
+  VVERSION=$(scripts/get_vyatta_version | tr -d " ")
+  VYATTA_DEV_VERSION=$(get_dev_version "$VVERSION")
+
+  if [ -z "$(scripts/get_vyatta_version --no-fallback)" ]; then
+      FULLVER+=" ($(scripts/get_vyatta_version --project))"
+  fi
+
+  touch scripts/files/version
+  echo "Version:      ${VYATTA_DEV_VERSION}">scripts/files/version
+  echo "Description:  ${FULLVER}">>scripts/files/version
+  echo "Copyright:    ${CURYEAR} Brocade Communications Systems, Inc." >> scripts/files/version
+
+  #echo for debian/rules
+  echo ${VVERSION}
+}
+
+if [ -n "$BUILD_TIME" ]; then
+  CURYEAR=$(date -d "$BUILD_TIME" -u +'%Y')
+fi
+
+: ${CURYEAR:=$(date +'%Y')}
+
+rm -rf scripts/files ; mkdir scripts/files
+create_os_release_vyatta
+mk_dev_version_files

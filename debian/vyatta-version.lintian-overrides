@@ -1,0 +1,3 @@
+vyatta-version: new-essential-package
+vyatta-version: diversion-for-unknown-file
+vyatta-version: debian-changelog-file-missing-or-wrong-name

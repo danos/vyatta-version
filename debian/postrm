@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+
+PKG=vyatta-version
+
+case "$1" in
+    purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+	if [ -e /etc/os-release.base-files-vyatta -a
+		-L /etc/os-release.vyatta ] ; then
+	    rm -f /etc/os-release.vyatta
+	    dpkg-divert --package ${PKG} --remove --rename \
+		--divert /etc/os-release.base-files-vyatta \
+		/etc/os-release.vyatta
+	fi
+	;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0
