@@ -62,9 +62,9 @@ VERSION_ID=$(get_prjconf_parameter _vyatta_version_id)
     grep -E '^[0-9]+[0-9.]+[ 0-9RS]*$')}
 
 if [ -n "${OPT_NAME}" ] ; then
-    echo ${NAME:-"Brocade Vyatta"}
+    echo ${NAME:-"DANOS "}
 elif [ -n "${OPT_PRETTY_NAME}" ] ; then
-    echo ${PRETTY_NAME:-"Brocade Vyatta Network OS"}
+    echo ${PRETTY_NAME:-"DANOS"}
 elif [ -n "${OPT_PROJECT}" ] ; then
     echo ${PROJECT_ID:-"UNKNOWN"}
 else

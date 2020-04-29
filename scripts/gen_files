@@ -51,7 +51,6 @@ mk_dev_version_files () {
   touch scripts/files/version
   echo "Version:      ${VYATTA_DEV_VERSION}">scripts/files/version
   echo "Description:  ${FULLVER}">>scripts/files/version
-  echo "Copyright:    ${CURYEAR} Brocade Communications Systems, Inc." >> scripts/files/version
 
   #echo for debian/rules
   echo ${VVERSION}
